@@ -4,6 +4,7 @@
     "Development": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "launchUrl": "swagger",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {
@@ -13,6 +14,7 @@
     "Production": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "launchUrl": "swagger",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {

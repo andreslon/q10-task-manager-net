@@ -10,8 +10,8 @@ namespace Q10.TaskManager.Infrastructure.Repositories
 {
     public class SettingsRepository : IConfig
     {
-        private IConfiguration Configuration { get; set; }
-        public SettingsRepository(IConfiguration configuration)
+         private IConfiguration Configuration { get; set;} 
+                 public SettingsRepository(IConfiguration configuration)
         {
             Configuration = configuration;
         }

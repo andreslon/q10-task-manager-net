@@ -1,26 +1,25 @@
 using Q10.TaskManager.Infrastructure.Interfaces;
 using Q10.TaskManager.Infrastructure.Repositories;
+using Q10.TaskManager.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-if (Environment.GetEnvironmentVariable("CLIENT_ID")=="")
-{
-
-}
-builder.Services.AddScoped<IConfig, EnvironmentRepository>();
 builder.Services.AddScoped<IConfig, SettingsRepository>();
+
+// Add Memory Cache
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ICacheRepository, CacheRepository>();
+
 builder.Services.AddControllers();
+
+// Add Swagger configuration
+builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseSwaggerConfiguration(app.Environment);
 
 app.UseHttpsRedirection();
 
