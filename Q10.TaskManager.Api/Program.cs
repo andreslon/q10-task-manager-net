@@ -4,12 +4,12 @@ using Q10.TaskManager.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddScoped<IConfig, SettingsRepository>();
+
 
 // Add Memory Cache
+
+builder.Services.AddServices();
 builder.Services.AddMemoryCache();
-builder.Services.AddScoped<ICacheRepository, CacheRepository>();
 
 builder.Services.AddControllers();
 

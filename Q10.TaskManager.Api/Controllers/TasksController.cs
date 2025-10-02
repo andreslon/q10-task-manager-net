@@ -9,10 +9,12 @@ namespace Q10.TaskManager.Api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        public IConfig Configuration{ get; set; }
-        public TasksController(IConfig configuration)
+        public IConfig Configuration { get; set; }
+        public ICacheRepository CacheRepository { get; set; }
+        public TasksController(IConfig configuration, ICacheRepository cacheRepository)
         {
             Configuration = configuration;
+            CacheRepository = cacheRepository;
         }
         // GET: api/<TasksController>
         [HttpGet]
@@ -32,6 +34,7 @@ namespace Q10.TaskManager.Api.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            CacheRepository.Set($"task_{Guid.NewGuid}", value);
         }
 
         // PUT api/<TasksController>/5
