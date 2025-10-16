@@ -1,5 +1,6 @@
 ﻿using Q10.TaskManager.Infrastructure.Interfaces;
 using Q10.TaskManager.Infrastructure.Repositories;
+using Q10.TaskManager.Infrastructure.Services;
 
 namespace Q10.TaskManager.Api.Configurations
 {
@@ -11,6 +12,11 @@ namespace Q10.TaskManager.Api.Configurations
             #region Repositories
             services.AddScoped<IConfig, SettingsRepository>();
             services.AddScoped<ICacheRepository, CacheRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            #endregion
+
+            #region Services
+            services.AddScoped<ITaskService, TaskService>();
             #endregion
 
             return services;
