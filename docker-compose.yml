@@ -26,6 +26,17 @@ services:
     #   - postgres_data:/var/lib/postgresql/data
     networks:
       - taskmanager-network
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: taskmanager-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - taskmanager-network
 volumes:
   postgres_data:
 networks:
