@@ -5,12 +5,12 @@ services:
     image: q10taskmanagerapi
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      CONNECTION_STRING: "Host=postgres;Port=15432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+      CONNECTION_STRING: "Host=postgres;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
     build:
       context: .
       dockerfile: api.Dockerfile
     ports:
-      - 5100:80
+      - 5100:8080
     networks:
       - taskmanager-network      
   postgres:
@@ -21,7 +21,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres_password123
     ports:
-      - "15432:5432"
+      - "5432:5432"
     # volumes:
     #   - postgres_data:/var/lib/postgresql/data
     networks:
