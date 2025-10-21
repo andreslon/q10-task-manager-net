@@ -15,7 +15,7 @@ namespace Q10.TaskManager.Infrastructure.Repositories
         {
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
+                HostName = "rabbitmq",
                 Port = 5672,
                 UserName = "admin",
                 Password = "admin123"

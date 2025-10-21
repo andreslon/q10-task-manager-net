@@ -14,6 +14,13 @@ namespace Q10.TaskManager.Infrastructure.Services
             _rabbitMQRepository = rabbitMQRepository;
         }
 
+        public async Task StartConsumingAsync()
+        {
+            await _rabbitMQRepository.StartConsumingAsync<TaskBulkCommand>(
+                "task-bulk-queue", 
+                ProcessBulkCommand);
+        }
+
         public async Task ProcessBulkCommand(TaskBulkCommand command)
         {
             var results = new List<TaskBulkResponse>();
@@ -28,7 +35,7 @@ namespace Q10.TaskManager.Infrastructure.Services
                         Description = taskRequest.Description
                     };
 
-                    await _taskRepository.CreateAsync(taskItem);
+                    await _taskRepository.CreateTaskAsync(taskItem);
 
                     results.Add(new TaskBulkResponse
                     {
