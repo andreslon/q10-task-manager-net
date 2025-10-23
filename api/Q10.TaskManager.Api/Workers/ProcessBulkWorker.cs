@@ -20,23 +20,30 @@ namespace Q10.TaskManager.Api.Workers
         {
             _logger.LogInformation("ProcessBulkWorker started");
 
-            try
-            {
-                using (var scope = _serviceProvider.CreateScope())
-                {
-                    var processBulkService = scope.ServiceProvider.GetRequiredService<IProcessBulkService>();
-                    await processBulkService.StartConsumingAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error starting ProcessBulkService");
-            }
-
-            // Keep the worker running
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1000, stoppingToken);
+                try
+                {
+                    using (var scope = _serviceProvider.CreateScope())
+                    {
+                        var processBulkService = scope.ServiceProvider.GetRequiredService<IProcessBulkService>();
+                        await processBulkService.StartConsumingAsync();
+                        
+                        // Si llegamos aquí, el consumo está funcionando
+                        _logger.LogInformation("ProcessBulkService started successfully");
+                        
+                        // Mantener el worker corriendo
+                        while (!stoppingToken.IsCancellationRequested)
+                        {
+                            await Task.Delay(1000, stoppingToken);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error starting ProcessBulkService, retrying in 5 seconds");
+                    await Task.Delay(5000, stoppingToken);
+                }
             }
 
             _logger.LogInformation("ProcessBulkWorker stopped");

@@ -12,7 +12,7 @@ namespace Q10.TaskManager.Infrastructure.Services
             _rabbitMQRepository = rabbitMQRepository;
         }
 
-        public async Task<string> ProcessBulkTasksAsync(List<TaskBulkRequest> tasks)
+        public async Task<List<string>> ProcessBulkTasksAsync(List<TaskBulkRequest> tasks)
         {
             var command = new TaskBulkCommand
             {
@@ -21,7 +21,9 @@ namespace Q10.TaskManager.Infrastructure.Services
 
             await _rabbitMQRepository.PublishAsync(command, "task-bulk-queue");
 
-            return command.Id;
+            // Retornar los IDs reales de las tareas
+            var taskIds = tasks.Select(t => t.Id).ToList();
+            return taskIds;
         }
     }
 }

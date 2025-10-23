@@ -31,6 +31,7 @@ namespace Q10.TaskManager.Infrastructure.Services
                 {
                     var taskItem = new Entities.TaskItem
                     {
+                        Id = taskRequest.Id, // Usar el ID que ya viene en el request
                         Title = taskRequest.Title,
                         Description = taskRequest.Description
                     };

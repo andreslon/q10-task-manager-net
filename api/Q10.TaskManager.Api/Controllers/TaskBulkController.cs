@@ -27,11 +27,7 @@ namespace Q10.TaskManager.Api.Controllers
 
             try
             {
-                var commandId = await _commandService.ProcessBulkTasksAsync(tasks);
-                
-                // Retornar los IDs de las tareas (en una implementación real, esto vendría del resultado)
-                var taskIds = tasks.Select((_, index) => $"{commandId}-{index}").ToList();
-                
+                var taskIds = await _commandService.ProcessBulkTasksAsync(tasks);
                 return Ok(taskIds);
             }
             catch (Exception ex)
@@ -40,17 +36,21 @@ namespace Q10.TaskManager.Api.Controllers
             }
         }
 
-        [HttpGet("{commandId}/results")]
-        public async Task<ActionResult<List<TaskBulkResponse>>> GetBulkTaskResults(string commandId)
+        [HttpGet("{taskId}")]
+        public async Task<ActionResult<TaskBulkResponse>> GetTaskById(string taskId)
         {
             try
             {
-                var results = await _queryService.GetBulkTaskResultsAsync(commandId);
-                return Ok(results);
+                var result = await _queryService.GetTaskByIdAsync(taskId);
+                if (result == null)
+                {
+                    return NotFound($"Task with ID {taskId} not found");
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error retrieving results: {ex.Message}");
+                return StatusCode(500, $"Error retrieving task: {ex.Message}");
             }
         }
     }
