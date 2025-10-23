@@ -55,15 +55,7 @@ namespace Q10.TaskManager.Infrastructure.Services
                         ErrorMessage = ex.Message
                     });
                 }
-            }
-
-            var result = new TaskBulkResult
-            {
-                CommandId = command.Id,
-                Results = results
-            };
-
-            await _rabbitMQRepository.PublishAsync(result, "task-bulk-results-queue");
+            } 
         }
     }
 }
