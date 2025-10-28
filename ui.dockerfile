@@ -22,6 +22,11 @@ FROM nginx:alpine
 # Copy built application from build stage
 COPY --from=build /app/dist/task-manager-ui/browser /usr/share/nginx/html
 
+# Rename Angular index file to be the default
+RUN cd /usr/share/nginx/html && \
+    mv index.html index.nginx.html && \
+    mv index.csr.html index.html
+
 # Copy custom nginx configuration from ui directory
 COPY ui/nginx.conf /etc/nginx/nginx.conf
 
