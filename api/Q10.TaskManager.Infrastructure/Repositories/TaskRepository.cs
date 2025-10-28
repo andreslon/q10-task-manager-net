@@ -42,14 +42,14 @@ namespace Q10.TaskManager.Infrastructure.Repositories
         public async Task<TaskItem> GetTaskByIdAsync(string id)
         {
             var task = await Context.TaskItems
-                .Where(t => t.Id.ToString() == id)
+                .Where(t => t.Id == id)
                 .FirstOrDefaultAsync();
             return task;
         }
 
         public async Task<TaskItem> UpdateTaskAsync(string id, TaskItem task)
         {
-            task.Id= id;
+            task.Id = id;
             Context.Entry(task).State = EntityState.Modified;
             await Context.SaveChangesAsync();
             return task;

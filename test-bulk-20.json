@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Tarea 1 - Desarrollo Frontend",
+    "description": "Implementar componentes React para dashboard"
+  },
+  {
+    "title": "Tarea 2 - Backend API",
+    "description": "Crear endpoints REST para autenticación"
+  },
+  {
+    "title": "Tarea 3 - Base de Datos",
+    "description": "Diseñar esquema de base de datos PostgreSQL"
+  },
+  {
+    "title": "Tarea 4 - Testing",
+    "description": "Escribir tests unitarios para servicios"
+  },
+  {
+    "title": "Tarea 5 - DevOps",
+    "description": "Configurar pipeline CI/CD con GitHub Actions"
+  },
+  {
+    "title": "Tarea 6 - Documentación",
+    "description": "Crear documentación técnica del proyecto"
+  },
+  {
+    "title": "Tarea 7 - Seguridad",
+    "description": "Implementar autenticación JWT"
+  },
+  {
+    "title": "Tarea 8 - Performance",
+    "description": "Optimizar consultas de base de datos"
+  },
+  {
+    "title": "Tarea 9 - UI/UX",
+    "description": "Diseñar mockups de la interfaz"
+  },
+  {
+    "title": "Tarea 10 - Integración",
+    "description": "Integrar servicios con APIs externas"
+  },
+  {
+    "title": "Tarea 11 - Monitoreo",
+    "description": "Configurar logging y monitoreo"
+  },
+  {
+    "title": "Tarea 12 - Cache",
+    "description": "Implementar Redis para cache"
+  },
+  {
+    "title": "Tarea 13 - Microservicios",
+    "description": "Descomponer monolito en microservicios"
+  },
+  {
+    "title": "Tarea 14 - Message Queue",
+    "description": "Configurar RabbitMQ para comunicación"
+  },
+  {
+    "title": "Tarea 15 - Containerización",
+    "description": "Dockerizar aplicación con Docker Compose"
+  },
+  {
+    "title": "Tarea 16 - Load Balancing",
+    "description": "Configurar balanceador de carga"
+  },
+  {
+    "title": "Tarea 17 - Backup",
+    "description": "Implementar estrategia de respaldo"
+  },
+  {
+    "title": "Tarea 18 - Analytics",
+    "description": "Integrar Google Analytics"
+  },
+  {
+    "title": "Tarea 19 - Notificaciones",
+    "description": "Sistema de notificaciones push"
+  },
+  {
+    "title": "Tarea 20 - Deployment",
+    "description": "Desplegar en producción AWS"
+  }
+]
