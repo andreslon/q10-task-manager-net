@@ -18,7 +18,18 @@ services:
       rabbitmq:
         condition: service_healthy
     networks:
-      - taskmanager-network      
+      - taskmanager-network
+  ui:
+    image: q10taskmanagerui
+    build:
+      context: .
+      dockerfile: ui.dockerfile
+    ports:
+      - 4200:80
+    depends_on:
+      - api
+    networks:
+      - taskmanager-network
   postgres:
     image: postgres:latest
     container_name: taskmanager-postgres

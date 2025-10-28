@@ -1,0 +1,38 @@
+<div class="task-list-container">
+  <div class="header">
+    <h2>Task List</h2>
+    <button class="btn btn-primary" (click)="loadTasks()" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading && tasks.length === 0" class="loading">
+    Loading tasks...
+  </div>
+
+  <div *ngIf="!loading && tasks.length === 0" class="no-tasks">
+    No tasks found. Create your first task!
+  </div>
+
+  <div class="tasks-grid" *ngIf="tasks.length > 0">
+    <div class="task-card" *ngFor="let task of tasks">
+      <div class="task-header">
+        <h3 class="task-title">{{ task.title }}</h3>
+        <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">
+          Delete
+        </button>
+      </div>
+      <div class="task-content">
+        <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
+        <div class="task-meta">
+          <small class="created-date">Created: {{ task.created | date:'short' }}</small>
+          <small class="updated-date">Updated: {{ task.updated | date:'short' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
