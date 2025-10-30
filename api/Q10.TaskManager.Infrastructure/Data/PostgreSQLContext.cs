@@ -20,5 +20,6 @@ namespace Q10.TaskManager.Infrastructure.Data
         }
         //Tablas
         public DbSet<TaskItem> TaskItems { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

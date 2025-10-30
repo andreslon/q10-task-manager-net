@@ -9,7 +9,7 @@
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+        "CONNECTION_STRING": "Host=localhost;Port=15432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
       }
     },
     "Production": {
@@ -20,7 +20,7 @@
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
-        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+        "CONNECTION_STRING": "Host=localhost;Port=15432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
       }
     }
   }

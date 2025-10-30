@@ -36,6 +36,9 @@ app.UseSwaggerConfiguration(app.Environment);
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 // Use CORS
 app.UseCors("AllowAngularApp");
 
