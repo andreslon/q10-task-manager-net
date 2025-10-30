@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskBulkRequest, TaskBulkResponse } from '../models/task-bulk.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskBulkService {
-  private readonly apiUrl = 'http://localhost:5100/api/taskbulk';
+  private readonly apiUrl = `${environment.apiUrl}/taskbulk`;
 
   constructor(private http: HttpClient) { }
 

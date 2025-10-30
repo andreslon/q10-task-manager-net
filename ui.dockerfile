@@ -13,8 +13,8 @@ RUN npm ci
 # Copy source code from ui directory
 COPY ui/ .
 
-# Build the application
-RUN npm run build
+# Build the application for production
+RUN npm run build --configuration=production
 
 # Production stage with Nginx
 FROM nginx:alpine

@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskItem, CreateTaskRequest, UpdateTaskRequest } from '../models/task-item.model';
 import { ApiResponse } from '../models/api-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly apiUrl = 'http://localhost:5100/api/tasks';
+  private readonly apiUrl = `${environment.apiUrl}/tasks`;
 
   constructor(private http: HttpClient) { }
 
