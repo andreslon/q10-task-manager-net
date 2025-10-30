@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-manager-ui
+  namespace: task-manager
+  labels:
+    app: task-manager-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: task-manager-ui
+  template:
+    metadata:
+      labels:
+        app: task-manager-ui
+    spec:
+      containers:
+      - name: ui
+        image: q10taskmanagerui:latest
+        imagePullPolicy: Never  # Para usar imagen local en Minikube
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5

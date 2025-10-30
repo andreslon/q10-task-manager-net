@@ -1,0 +1,41 @@
+# Configuración adicional para Ingress Controller (opcional)
+# Solo usar si necesitas configuraciones específicas de Nginx
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: task-manager
+data:
+  # Configuración personalizada de Nginx
+  nginx.conf: |
+    upstream task-manager-api {
+        server task-manager-api:80;
+    }
+    
+    upstream task-manager-ui {
+        server task-manager-ui:80;
+    }
+    
+    server {
+        listen 80;
+        server_name task-manager.local;
+        
+        # API routes
+        location /api {
+            proxy_pass http://task-manager-api;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        
+        # UI routes
+        location / {
+            proxy_pass http://task-manager-ui;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }

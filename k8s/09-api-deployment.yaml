@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-manager-api
+  namespace: task-manager
+  labels:
+    app: task-manager-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: task-manager-api
+  template:
+    metadata:
+      labels:
+        app: task-manager-api
+    spec:
+      containers:
+      - name: api
+        image: q10taskmanagerapi:latest
+        imagePullPolicy: Never  # Para usar imagen local en Minikube
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: task-manager-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: ASPNETCORE_URLS
+          valueFrom:
+            configMapKeyRef:
+              name: task-manager-config
+              key: ASPNETCORE_URLS
+        - name: CONNECTION_STRING
+          value: "Host=postgres;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+        - name: API_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: task-manager-config
+              key: API_KEY
+        - name: MAX_ITEMS_PER_PAGE
+          valueFrom:
+            configMapKeyRef:
+              name: task-manager-config
+              key: MAX_ITEMS_PER_PAGE
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
