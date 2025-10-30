@@ -1,0 +1,24 @@
+<div class="container">
+  <header>
+    <h1>{{ title }}</h1>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+      <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+      <a routerLink="/bulk" routerLinkActive="active">Bulk Operations</a>
+    </nav>
+    <div class="health-status">
+      <div>
+        <span class="status-indicator" [ngClass]="{'status-ok': healthStatus === 'OK', 'status-error': healthStatus !== 'OK'}"></span>
+        <strong>Health:</strong> {{ healthStatus }}
+      </div>
+      <div>
+        <strong>Environment:</strong> {{ configValue }}
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
+

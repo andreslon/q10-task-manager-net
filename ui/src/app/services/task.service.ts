@@ -1,35 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TaskItem, CreateTaskRequest, UpdateTaskRequest } from '../models/task-item.model';
-import { ApiResponse } from '../models/api-response.model';
-import { environment } from '../../environments/environment';
+import { TaskItem } from '../models/task-item.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly apiUrl = `${environment.apiUrl}/tasks`;
+  private apiUrl = 'http://localhost:5100/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllTasks(): Observable<TaskItem[]> {
-    return this.http.get<TaskItem[]>(this.apiUrl);
+    return this.http.get<TaskItem[]>(`${this.apiUrl}/tasks`);
   }
 
   getTaskById(id: string): Observable<TaskItem> {
-    return this.http.get<TaskItem>(`${this.apiUrl}/${id}`);
+    return this.http.get<TaskItem>(`${this.apiUrl}/tasks/${id}`);
   }
 
-  createTask(task: CreateTaskRequest): Observable<TaskItem> {
-    return this.http.post<TaskItem>(this.apiUrl, task);
+  createTask(task: TaskItem): Observable<TaskItem> {
+    return this.http.post<TaskItem>(`${this.apiUrl}/tasks`, task);
   }
 
-  updateTask(id: string, task: UpdateTaskRequest): Observable<TaskItem> {
-    return this.http.put<TaskItem>(`${this.apiUrl}/${id}`, task);
+  updateTask(id: string, task: TaskItem): Observable<TaskItem> {
+    return this.http.put<TaskItem>(`${this.apiUrl}/tasks/${id}`, task);
   }
 
   deleteTask(id: string): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
+    return this.http.delete<boolean>(`${this.apiUrl}/tasks/${id}`);
+  }
+
+  checkHealth(): Observable<string> {
+    return this.http.get(`${this.apiUrl}/health`, { responseType: 'text' });
+  }
+
+  getConfig(): Observable<string> {
+    return this.http.get(`${this.apiUrl}/config`, { responseType: 'text' });
   }
 }
+

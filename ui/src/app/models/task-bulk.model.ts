@@ -1,12 +1,13 @@
 export interface TaskBulkRequest {
-  id: string;
+  id?: string;
   title: string;
-  description?: string;
+  description: string;
 }
 
 export interface TaskBulkResponse {
   taskId: string;
   title: string;
   isSuccess: boolean;
-  errorMessage?: string;
+  errorMessage: string;
 }
+

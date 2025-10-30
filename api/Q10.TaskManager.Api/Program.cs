@@ -14,6 +14,18 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddDatabaseConfiguration();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "http://localhost:80")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 // Add Swagger configuration
 builder.Services.AddSwaggerConfiguration();
 
@@ -23,6 +35,9 @@ await builder.Services.DatabaseCreatedAsync();
 app.UseSwaggerConfiguration(app.Environment);
 
 app.UseHttpsRedirection();
+
+// Use CORS
+app.UseCors("AllowAngularApp");
 
 app.MapControllers();
 app.Run();

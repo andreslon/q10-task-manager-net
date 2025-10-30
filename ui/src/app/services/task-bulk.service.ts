@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TaskBulkRequest, TaskBulkResponse } from '../models/task-bulk.model';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskBulkService {
-  private readonly apiUrl = `${environment.apiUrl}/taskbulk`;
+  private apiUrl = 'http://localhost:5100/api/taskbulk';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createBulkTasks(tasks: TaskBulkRequest[]): Observable<string[]> {
     return this.http.post<string[]>(this.apiUrl, tasks);
@@ -20,3 +19,4 @@ export class TaskBulkService {
     return this.http.get<TaskBulkResponse>(`${this.apiUrl}/${taskId}`);
   }
 }
+

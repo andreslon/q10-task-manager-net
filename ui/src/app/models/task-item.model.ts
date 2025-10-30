@@ -1,17 +1,8 @@
 export interface TaskItem {
-  id: string;
+  id?: string;
   title: string;
-  description?: string;
-  created: Date;
-  updated: Date;
+  description: string;
+  created?: string;
+  updated?: string;
 }
 
-export interface CreateTaskRequest {
-  title: string;
-  description?: string;
-}
-
-export interface UpdateTaskRequest {
-  title: string;
-  description?: string;
-}

@@ -1,10 +1,17 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './views/dashboard/dashboard';
-import { TasksComponent } from './views/tasks/tasks';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'tasks', component: TasksComponent },
-  { path: '**', redirectTo: '/dashboard' }
+  {
+    path: '',
+    loadComponent: () => import('./views/dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./views/tasks/tasks.component').then(m => m.TasksComponent)
+  },
+  {
+    path: 'bulk',
+    loadComponent: () => import('./views/bulk/bulk.component').then(m => m.BulkComponent)
+  }
 ];
+
