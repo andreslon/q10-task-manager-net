@@ -29,6 +29,9 @@ builder.Services.AddCors(options =>
 // Add Swagger configuration
 builder.Services.AddSwaggerConfiguration();
 
+// Add Authentication & Authorization
+builder.Services.AddAuthConfiguration(builder.Configuration);
+
 var app = builder.Build();
 await builder.Services.DatabaseCreatedAsync();
 // Configure the HTTP request pipeline.
@@ -38,6 +41,10 @@ app.UseHttpsRedirection();
 
 // Use CORS
 app.UseCors("AllowAngularApp");
+
+// Use Authentication & Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.Run();

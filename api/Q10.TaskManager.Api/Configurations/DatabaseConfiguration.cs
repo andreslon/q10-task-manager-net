@@ -8,8 +8,18 @@ namespace Q10.TaskManager.Api.Configurations
         public static IServiceCollection AddDatabaseConfiguration(this IServiceCollection services)
         {
             services.AddDbContext<PostgreSQLContext>(options =>
-                options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"))); 
-
+            {
+                var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    // Usar SQLite para pruebas si no hay PostgreSQL
+                    options.UseSqlite("Data Source=test.db");
+                }
+                else
+                {
+                    options.UseNpgsql(connectionString);
+                }
+            });
 
             return services;
         }

@@ -1,0 +1,83 @@
+### Test de Autenticación JWT - Q10 Task Manager API
+
+### 1. Registrar un nuevo usuario
+POST https://localhost:7000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "Test123!",
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+### 2. Iniciar sesión con el usuario registrado
+POST https://localhost:7000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Test123!"
+}
+
+### 3. Iniciar sesión con el usuario administrador por defecto
+POST https://localhost:7000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@q10taskmanager.com",
+  "password": "Admin123!"
+}
+
+### 4. Validar token (reemplazar YOUR_TOKEN con el token obtenido del login)
+POST https://localhost:7000/api/auth/validate
+Content-Type: application/json
+
+"YOUR_TOKEN"
+
+### 5. Acceder a información pública (no requiere autenticación)
+GET https://localhost:7000/api/security/public
+
+### 6. Acceder a información protegida (requiere autenticación)
+GET https://localhost:7000/api/security/protected
+Authorization: Bearer YOUR_TOKEN
+
+### 7. Acceder a información solo para administradores
+GET https://localhost:7000/api/security/admin-only
+Authorization: Bearer YOUR_ADMIN_TOKEN
+
+### 8. Acceder a información para usuarios y administradores
+GET https://localhost:7000/api/security/user-or-admin
+Authorization: Bearer YOUR_TOKEN
+
+### 9. Ver información del token
+GET https://localhost:7000/api/security/token-info
+Authorization: Bearer YOUR_TOKEN
+
+### 10. Crear una tarea (requiere autenticación)
+POST https://localhost:7000/api/tasks
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Tarea de prueba",
+  "description": "Esta es una tarea de prueba creada con autenticación JWT",
+  "isCompleted": false,
+  "priority": "Medium"
+}
+
+### 11. Obtener todas las tareas (requiere autenticación)
+GET https://localhost:7000/api/tasks
+Authorization: Bearer YOUR_TOKEN
+
+### 12. Eliminar una tarea (requiere autenticación y rol de usuario)
+DELETE https://localhost:7000/api/tasks/TASK_ID
+Authorization: Bearer YOUR_TOKEN
+
+### 13. Intentar acceder a endpoint protegido sin token (debería fallar)
+GET https://localhost:7000/api/security/protected
+
+### 14. Intentar acceder a endpoint de admin con token de usuario normal (debería fallar)
+GET https://localhost:7000/api/security/admin-only
+Authorization: Bearer YOUR_USER_TOKEN

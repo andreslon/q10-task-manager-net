@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Q10.TaskManager.Infrastructure.Data;
 using Q10.TaskManager.Infrastructure.Entities;
 using Q10.TaskManager.Infrastructure.Interfaces;
 using System.Diagnostics.Contracts;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,14 +12,18 @@ namespace Q10.TaskManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] // Requiere autenticación para todos los endpoints
     public class TasksController : ControllerBase
     {
         public IConfig Configuration { get; set; }
         public ITaskService TaskService { get; set; }
-        public TasksController(IConfig configuration, ITaskService taskService)
+        private readonly ILogger<TasksController>? _logger;
+        
+        public TasksController(IConfig configuration, ITaskService taskService, ILogger<TasksController>? logger = null)
         {
             Configuration = configuration;
             TaskService = taskService;
+            _logger = logger;
         }
         /// <summary>
         /// Creates a new task based on the provided task details.
@@ -100,18 +106,41 @@ namespace Q10.TaskManager.Api.Controllers
             return Ok(updatedTask);
         }
         [HttpDelete("{id}")]
+        [Authorize(Policy = "RequireUserRole")] // Requiere rol de usuario o admin
         public async Task<IActionResult> DeleteTask(string id)
         {
+            // Obtener información del usuario autenticado
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            
+            _logger?.LogInformation("Usuario {UserId} ({Email}) con rol {Role} intentando eliminar tarea {TaskId}", 
+                userId, userEmail, userRole, id);
+
             bool isDeleted;
             try
             {
                 isDeleted = await TaskService.DeleteTask(id);
+                
+                if (isDeleted)
+                {
+                    _logger?.LogInformation("Tarea {TaskId} eliminada exitosamente por usuario {UserId}", id, userId);
+                }
+                else
+                {
+                    _logger?.LogWarning("No se pudo eliminar la tarea {TaskId} por usuario {UserId}", id, userId);
+                }
             }
             catch (Exception ex)
             {
+                _logger?.LogError(ex, "Error eliminando tarea {TaskId} por usuario {UserId}", id, userId);
                 return BadRequest(ex.Message);
             }
-            return Ok(isDeleted);
+            return Ok(new { 
+                deleted = isDeleted, 
+                message = isDeleted ? "Tarea eliminada exitosamente" : "No se pudo eliminar la tarea",
+                deletedBy = new { userId, userEmail, userRole }
+            });
         }
 
     }
