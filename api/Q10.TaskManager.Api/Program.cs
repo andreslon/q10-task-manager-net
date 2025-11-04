@@ -13,6 +13,7 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 builder.Services.AddDatabaseConfiguration();
+builder.Services.AddAuthConfiguration();
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -30,7 +31,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
-await builder.Services.DatabaseCreatedAsync();
+// await builder.Services.DatabaseCreatedAsync(); // Comentado temporalmente para pruebas
 // Configure the HTTP request pipeline.
 app.UseSwaggerConfiguration(app.Environment);
 

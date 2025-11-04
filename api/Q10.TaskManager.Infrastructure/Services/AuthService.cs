@@ -77,14 +77,39 @@ namespace Q10.TaskManager.Infrastructure.Services
             };
         }
 
-        public Task<bool> ValidateTokenAsync(string token)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<bool> VerifyPasswordAsync(string password, string hash)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Task.FromResult(BCrypt.Net.BCrypt.Verify(password, hash));
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+        }
+
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
+        {
+            var users = await UserRepository.GetAllUsersAsync();
+            var user = users.FirstOrDefault(x => x.Username == request.Username);
+            
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException("Invalid credentials");
+            }
+
+            var isValidPassword = await VerifyPasswordAsync(request.Password, user.PasswordHash);
+            if (!isValidPassword)
+            {
+                throw new UnauthorizedAccessException("Invalid credentials");
+            }
+
+            return new AuthResponse
+            {
+                Token = await GenerateTokenAsync(user.Id, user.Email, user.Role),
+                ExpiresAt = DateTime.UtcNow.AddMinutes(60),
+            };
         }
     }
 }

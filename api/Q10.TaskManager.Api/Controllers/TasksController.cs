@@ -11,7 +11,7 @@ namespace Q10.TaskManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class TasksController : ControllerBase
     {
         public IConfig Configuration { get; set; }

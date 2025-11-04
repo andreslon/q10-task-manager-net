@@ -13,10 +13,8 @@ namespace Q10.TaskManager.Infrastructure.Interfaces
         Task<bool> VerifyPasswordAsync(string password, string hash);
         Task<string> GenerateTokenAsync(string userId, string email, string role);
 
-        //Validacion de token
-
-        Task<bool> ValidateTokenAsync(string token);
-        //Task<AuthResponse> LoginAsync(LoginRequest request);
+        //Login
+        Task<AuthResponse> LoginAsync(LoginRequest request);
 
     }
 }

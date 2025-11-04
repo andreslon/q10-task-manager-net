@@ -13,13 +13,31 @@ namespace Q10.TaskManager.Api.Controllers
         {
             AuthService = authService;
         }
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(UserRequest user)
         {
             try
             {
                 var jwt = await AuthService.RegisterAsync(user);
                 return Ok(jwt);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        {
+            try
+            {
+                var response = await AuthService.LoginAsync(loginRequest);
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
             }
             catch (Exception ex)
             {
