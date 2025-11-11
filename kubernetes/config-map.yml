@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: q10-config
+  namespace: q10-task-manager
 data:
   ASPNETCORE_ENVIRONMENT: "Production"
-  CONNECTION_STRING: "Host=10.110.96.145;Port=15433;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+  CONNECTION_STRING: "Host=10.105.104.205;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"

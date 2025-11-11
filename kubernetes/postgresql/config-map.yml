@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-config
+  namespace: q10-task-manager
+data:
+  POSTGRES_DB: "TaskManagerDB"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres_password123"
+
