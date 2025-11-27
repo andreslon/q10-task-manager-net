@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Q10.TaskManager.Infrastructure.DTOs;
-using Q10.TaskManager.Infrastructure.Interfaces;
+using Q10.TaskManager.Application.Interfaces;
 
 namespace Q10.TaskManager.Api.Workers
 {

@@ -2,11 +2,12 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
+using Q10.TaskManager.Application.Interfaces;
 using Q10.TaskManager.Infrastructure.Interfaces;
 
 namespace Q10.TaskManager.Infrastructure.Repositories
 {
-    public class RabbitMQRepository : IRabbitMQRepository, IDisposable
+    public class RabbitMQRepository : IRabbitMQRepository, IMessageQueueRepository, IDisposable
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
@@ -25,7 +26,7 @@ namespace Q10.TaskManager.Infrastructure.Repositories
             _channel = _connection.CreateModel();
         }
 
-        public async Task PublishAsync<T>(T message, string queueName)
+        public async Task PublishAsync<T>(T message, string queueName) where T : class
         {
             _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
 
@@ -40,7 +41,7 @@ namespace Q10.TaskManager.Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task StartConsumingAsync<T>(string queueName, Func<T, Task> handler)
+        public async Task StartConsumingAsync<T>(string queueName, Func<T, Task> handler) where T : class
         {
             _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
 

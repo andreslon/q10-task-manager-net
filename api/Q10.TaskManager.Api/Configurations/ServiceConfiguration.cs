@@ -1,8 +1,9 @@
 ﻿using Q10.TaskManager.Api.Workers;
+using Q10.TaskManager.Application.Interfaces;
+using Q10.TaskManager.Application.Services;
+using Q10.TaskManager.Domain.Interfaces;
 using Q10.TaskManager.Infrastructure.Interfaces;
 using Q10.TaskManager.Infrastructure.Repositories;
-using Q10.TaskManager.Infrastructure.Services;
-using Q10.UserManager.Infrastructure.Repositories;
 
 namespace Q10.TaskManager.Api.Configurations
 {
@@ -17,6 +18,7 @@ namespace Q10.TaskManager.Api.Configurations
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IRabbitMQRepository, RabbitMQRepository>();
+            services.AddSingleton<IMessageQueueRepository, RabbitMQRepository>();
 
             #endregion
 

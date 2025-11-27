@@ -1,47 +1,44 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Q10.TaskManager.Domain.Entities;
+using Q10.TaskManager.Domain.Interfaces;
 using Q10.TaskManager.Infrastructure.Data;
-using Q10.TaskManager.Infrastructure.Entities;
-using Q10.TaskManager.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Q10.TaskManager.Infrastructure.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
-        public PostgreSQLContext Context { get; set; }
+        private readonly PostgreSQLContext _context;
+
         public TaskRepository(PostgreSQLContext context)
         {
-            Context = context;
+            _context = context;
         }
+
         public async Task<TaskItem> CreateTaskAsync(TaskItem task)
         {
-            await Context.TaskItems.AddAsync(task);
-            await Context.SaveChangesAsync();
+            await _context.TaskItems.AddAsync(task);
+            await _context.SaveChangesAsync();
             return task;
         }
 
         public async Task<bool> DeleteTaskAsync(string id)
         {
-           var task = await GetTaskByIdAsync(id);
+            var task = await GetTaskByIdAsync(id);
             if (task == null) return false;
-            Context.TaskItems.Remove(task);
-            await Context.SaveChangesAsync();
+            _context.TaskItems.Remove(task);
+            await _context.SaveChangesAsync();
             return true;
         }
 
         public Task<IQueryable<TaskItem>> GetAllTasksAsync()
         {
-            var tasks = Context.TaskItems.AsQueryable();
+            var tasks = _context.TaskItems.AsQueryable();
             return Task.FromResult(tasks);
         }
 
-        public async Task<TaskItem> GetTaskByIdAsync(string id)
+        public async Task<TaskItem?> GetTaskByIdAsync(string id)
         {
-            var task = await Context.TaskItems
+            var task = await _context.TaskItems
                 .Where(t => t.Id == id)
                 .FirstOrDefaultAsync();
             return task;
@@ -50,8 +47,8 @@ namespace Q10.TaskManager.Infrastructure.Repositories
         public async Task<TaskItem> UpdateTaskAsync(string id, TaskItem task)
         {
             task.Id = id;
-            Context.Entry(task).State = EntityState.Modified;
-            await Context.SaveChangesAsync();
+            _context.Entry(task).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return task;
         }
     }

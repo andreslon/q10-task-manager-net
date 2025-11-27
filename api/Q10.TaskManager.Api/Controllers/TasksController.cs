@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Q10.TaskManager.Infrastructure.Data;
-using Q10.TaskManager.Infrastructure.Entities;
+using Q10.TaskManager.Application.Interfaces;
+using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.Interfaces;
-using System.Diagnostics.Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,12 +34,12 @@ namespace Q10.TaskManager.Api.Controllers
             try
             {
                 var createdTask = await TaskService.CreateTask(task);
+                return Ok(createdTask);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok(task);
         }
         /// <summary>
         /// Retrieves all tasks from the task service.
@@ -77,16 +76,19 @@ namespace Q10.TaskManager.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTaskById(string id)
         {
-            TaskItem task;
             try
             {
-                task = await TaskService.GetTaskById(id);
+                var task = await TaskService.GetTaskById(id);
+                if (task == null)
+                {
+                    return NotFound($"Task with ID {id} not found");
+                }
+                return Ok(task);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok(task);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTask(string id, [FromBody] TaskItem task)

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Q10.TaskManager.Infrastructure.DTOs;
-using Q10.TaskManager.Infrastructure.Interfaces;
+using Q10.TaskManager.Application.DTOs.Requests;
+using Q10.TaskManager.Application.DTOs.Responses;
+using Q10.TaskManager.Application.Interfaces;
 
 namespace Q10.TaskManager.Api.Controllers
 {
@@ -37,7 +38,7 @@ namespace Q10.TaskManager.Api.Controllers
         }
 
         [HttpGet("{taskId}")]
-        public async Task<ActionResult<TaskBulkResponse>> GetTaskById(string taskId)
+        public async Task<ActionResult<BulkTaskItemResponse>> GetTaskById(string taskId)
         {
             try
             {
