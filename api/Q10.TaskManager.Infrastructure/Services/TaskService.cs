@@ -21,10 +21,7 @@ namespace Q10.TaskManager.Infrastructure.Services
             if (task == null) {
                 throw new ArgumentNullException(nameof(task));
             }
-            if (string.IsNullOrEmpty(task.Title))
-            {
-                throw new ArgumentException("Task title cannot be null or empty");
-            }
+
             if (string.IsNullOrEmpty(task.Description))
             {
                 throw new ArgumentException("Task description cannot be null or empty");
