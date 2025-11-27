@@ -1,4 +1,4 @@
-﻿using Q10.TaskManager.Infrastructure.Entities;
+﻿using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Q10.TaskManager.Infrastructure.Services
+namespace Q10.TaskManager.Application.Services
 {
     public class TaskService : ITaskService
     {

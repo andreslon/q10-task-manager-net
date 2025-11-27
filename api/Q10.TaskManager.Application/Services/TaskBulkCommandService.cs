@@ -1,7 +1,7 @@
 using Q10.TaskManager.Infrastructure.DTOs;
 using Q10.TaskManager.Infrastructure.Interfaces;
 
-namespace Q10.TaskManager.Infrastructure.Services
+namespace Q10.TaskManager.Application.Services
 {
     public class TaskBulkCommandService : ITaskBulkCommandService
     {

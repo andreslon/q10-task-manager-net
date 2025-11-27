@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Q10.TaskManager.Infrastructure.Data;
-using Q10.TaskManager.Infrastructure.Entities;
+using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.Interfaces;
 
 namespace Q10.UserManager.Infrastructure.Repositories

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Q10.TaskManager.Application\Q10.TaskManager.Application.csproj" />
     <ProjectReference Include="..\Q10.TaskManager.Infrastructure\Q10.TaskManager.Infrastructure.csproj" />
   </ItemGroup>
 

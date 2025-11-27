@@ -1,16 +1,18 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.DTOs;
 using Q10.TaskManager.Infrastructure.Interfaces;
+using Q10.UserManager.Infrastructure.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Q10.TaskManager.Infrastructure.Services
+namespace Q10.TaskManager.Application.Services
 {
     public class AuthService : IAuthService
     {
         public IUserRepository UserRepository { get; set; }
-        public AuthService(IUserRepository userRepository)
+        public AuthService(UserRepository userRepository)
         {
             UserRepository = userRepository;
         }
@@ -59,7 +61,7 @@ namespace Q10.TaskManager.Infrastructure.Services
                 throw new Exception("Email already exists");
             }
 
-            var user = new Entities.User
+            var user = new User
             {
                 Username = request.Username,
                 Email = request.Email,
