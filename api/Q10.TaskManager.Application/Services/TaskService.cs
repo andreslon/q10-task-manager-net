@@ -21,11 +21,6 @@ namespace Q10.TaskManager.Application.Services
             if (task == null) {
                 throw new ArgumentNullException(nameof(task));
             }
-
-            if (string.IsNullOrEmpty(task.Description))
-            {
-                throw new ArgumentException("Task description cannot be null or empty");
-            }
             var newTask = await TaskRepository.CreateTaskAsync(task);
             return newTask;
         }
