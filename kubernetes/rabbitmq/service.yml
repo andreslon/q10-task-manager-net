@@ -17,3 +17,7 @@ spec:
       targetPort: 15672
   type: ClusterIP
 
+
+
+
+
