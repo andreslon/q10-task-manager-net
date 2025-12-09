@@ -1,0 +1,21 @@
+name: CI/CD API
+on:
+  push:
+    branches: ["dev","main"]
+    paths:
+      - 'api/**'
+      - 'kubernetes/**'
+      - 'api.Dockerfile'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for the deployment'
+        required: true
+        default: 'Manual deployment'
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
