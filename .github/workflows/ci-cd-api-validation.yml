@@ -1,0 +1,21 @@
+name: CI/CD API Validation
+on:
+  pull_request:
+    branches: ["dev","main"]
+
+env:
+  SLN_PATH: 'api/Q10.TaskManager.Api.sln'   
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Restore .Net packages
+        run: dotnet restore ${{ env.SLN_PATH }}
+      - name: Build the project
+        run: dotnet build ${{ env.SLN_PATH }} -c Release
+      - name: Test the project
+        run: dotnet test ${{ env.SLN_PATH }}
+      
