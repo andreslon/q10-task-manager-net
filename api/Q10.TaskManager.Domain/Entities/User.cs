@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Q10.TaskManager.Infrastructure.Entities
+namespace Q10.TaskManager.Domain.Entities
 {
     public class User
     {
@@ -37,5 +37,15 @@ namespace Q10.TaskManager.Infrastructure.Entities
 
         [MaxLength(50)]
         public string Role { get; set; } = "User";
+
+        public void Deactive()
+        {
+            IsActive = false;
+        }
+        public void Activate()
+        {
+            IsActive = true;
+        }
     }
 }
+

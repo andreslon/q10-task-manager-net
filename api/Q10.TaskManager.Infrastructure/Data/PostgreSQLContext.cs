@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Q10.TaskManager.Infrastructure.Entities;
+using Q10.TaskManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

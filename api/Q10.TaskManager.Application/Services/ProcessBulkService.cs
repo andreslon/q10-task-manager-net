@@ -1,7 +1,8 @@
+using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.DTOs;
 using Q10.TaskManager.Infrastructure.Interfaces;
 
-namespace Q10.TaskManager.Infrastructure.Services
+namespace Q10.TaskManager.Application.Services
 {
     public class ProcessBulkService : IProcessBulkService
     {
@@ -29,7 +30,7 @@ namespace Q10.TaskManager.Infrastructure.Services
             {
                 try
                 {
-                    var taskItem = new Entities.TaskItem
+                    var taskItem = new TaskItem
                     {
                         Id = taskRequest.Id, // Usar el ID que ya viene en el request
                         Title = taskRequest.Title,

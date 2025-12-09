@@ -1,4 +1,4 @@
-﻿using Q10.TaskManager.Infrastructure.Entities;
+﻿using Q10.TaskManager.Domain.Entities;
 
 namespace Q10.TaskManager.Infrastructure.Interfaces
 {
@@ -12,3 +12,4 @@ namespace Q10.TaskManager.Infrastructure.Interfaces
         Task<bool> DeleteTask(string id);
     }
 }
+
