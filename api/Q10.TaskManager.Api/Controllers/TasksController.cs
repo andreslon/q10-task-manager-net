@@ -15,7 +15,7 @@ namespace Q10.TaskManager.Api.Controllers
     public class TasksController : ControllerBase
     {
         public IConfig Configuration { get; set; }
-        public ITaskService TaskService { get; set; }
+        public ITaskServiceT TaskService { get; set; }
         public TasksController(IConfig configuration, ITaskService taskService)
         {
             Configuration = configuration;
