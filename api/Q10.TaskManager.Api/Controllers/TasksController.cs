@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Q10.TaskManager.Infrastructure.Data;
 using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.Interfaces;
-using System.Diagnostics.Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,7 +9,9 @@ namespace Q10.TaskManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+#if !DEBUG
     [Authorize]
+#endif
     public class TasksController : ControllerBase
     {
         public IConfig Configuration { get; set; }
@@ -29,7 +29,6 @@ namespace Q10.TaskManager.Api.Controllers
         /// with the created task if successful,  or <see cref="BadRequestObjectResult"/> with an error message if the
         /// operation fails.</returns>
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateTask([FromBody] TaskItem task)
         {
             try

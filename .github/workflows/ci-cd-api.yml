@@ -14,9 +14,22 @@ on:
         required: true
         default: 'Manual deployment'
 
+env:
+  Environment: ${{ github.ref_name }}
+  TAG: ${{ github.ref_name }}
+  SLN_PATH: 'api/Q10.TaskManager.Api.sln'   
+
 jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Restore .Net packages
+        run: dotnet restore ${{ env.SLN_PATH }}
+      - name: Build the project
+        run: dotnet build ${{ env.SLN_PATH }} -c Release
+      - name: Test the project
+        run: dotnet test ${{ env.SLN_PATH }}
+      
