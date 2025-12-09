@@ -1,0 +1,33 @@
+@Q10.TaskManager.Api_HostAddress = http://localhost:5253
+
+### Registro de usuario
+POST {{Q10.TaskManager.Api_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "firstName": "Test",
+  "lastName": "User",
+  "password": "Password123!"
+}
+
+### Login
+POST {{Q10.TaskManager.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Password123!"
+}
+
+### Acceder a endpoint protegido sin token (debería retornar 401)
+GET {{Q10.TaskManager.Api_HostAddress}}/api/tasks
+Accept: application/json
+
+### Acceder a endpoint protegido con token (reemplazar TOKEN_AQUI con el token obtenido del login)
+GET {{Q10.TaskManager.Api_HostAddress}}/api/tasks
+Accept: application/json
+Authorization: Bearer TOKEN_AQUI
+
+###

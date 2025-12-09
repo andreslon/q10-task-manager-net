@@ -1,0 +1,31 @@
+<div class="dashboard">
+  <h2>Dashboard</h2>
+  
+  <div class="error" *ngIf="error">{{ error }}</div>
+  
+  <div class="loading" *ngIf="loading">Loading...</div>
+  
+  <div *ngIf="!loading && !error">
+    <div class="card">
+      <h3>Statistics</h3>
+      <div class="stat">
+        <span class="stat-label">Total Tasks:</span>
+        <span class="stat-value">{{ totalTasks }}</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recent Tasks</h3>
+      <div *ngIf="recentTasks.length === 0">No tasks found</div>
+      <div *ngFor="let task of recentTasks" class="task-item">
+        <h4>{{ task.title }}</h4>
+        <p>{{ task.description }}</p>
+        <div class="meta">
+          <small>ID: {{ task.id }}</small>
+          <small>Created: {{ task.created | date:'short' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

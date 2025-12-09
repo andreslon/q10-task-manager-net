@@ -1,0 +1,56 @@
+.bulk {
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .bulk-task-item {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+
+    h4 {
+      margin-bottom: 10px;
+      color: #666;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .result-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      strong {
+        font-size: 16px;
+      }
+    }
+
+    .result-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 13px;
+      color: #666;
+
+      .error-text {
+        color: #dc3545;
+      }
+    }
+  }
+}
+

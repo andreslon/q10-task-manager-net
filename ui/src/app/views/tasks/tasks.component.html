@@ -1,0 +1,88 @@
+<div class="tasks">
+  <h2>Task Management</h2>
+  
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <div class="success" *ngIf="success">{{ success }}</div>
+  
+  <!-- Create Task Form -->
+  <div class="card">
+    <h3>Create New Task</h3>
+    <form (ngSubmit)="createTask()">
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input 
+          type="text" 
+          id="title" 
+          [(ngModel)]="newTask.title" 
+          name="title" 
+          required
+          maxlength="400"
+        >
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          [(ngModel)]="newTask.description" 
+          name="description"
+          maxlength="500"
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Create Task</button>
+    </form>
+  </div>
+
+  <!-- Edit Task Form -->
+  <div class="card" *ngIf="editingTask">
+    <h3>Edit Task</h3>
+    <form (ngSubmit)="updateTask()">
+      <div class="form-group">
+        <label for="edit-title">Title *</label>
+        <input 
+          type="text" 
+          id="edit-title" 
+          [(ngModel)]="editingTask.title" 
+          name="title" 
+          required
+          maxlength="400"
+        >
+      </div>
+      <div class="form-group">
+        <label for="edit-description">Description</label>
+        <textarea 
+          id="edit-description" 
+          [(ngModel)]="editingTask.description" 
+          name="description"
+          maxlength="500"
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Update Task</button>
+      <button type="button" class="btn" (click)="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+
+  <!-- Tasks List -->
+  <div class="card">
+    <h3>All Tasks</h3>
+    <button class="btn" (click)="loadTasks()">Refresh</button>
+    
+    <div class="loading" *ngIf="loading">Loading tasks...</div>
+    
+    <div *ngIf="!loading && tasks.length === 0">No tasks found</div>
+    
+    <div *ngFor="let task of tasks" class="task-item">
+      <h4>{{ task.title }}</h4>
+      <p>{{ task.description }}</p>
+      <div class="meta">
+        <small>ID: {{ task.id }}</small>
+        <small>Created: {{ task.created | date:'short' }}</small>
+        <small>Updated: {{ task.updated | date:'short' }}</small>
+      </div>
+      <div class="actions">
+        <button class="btn" (click)="editTask(task)">Edit</button>
+        <button class="btn btn-danger" (click)="deleteTask(task.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+

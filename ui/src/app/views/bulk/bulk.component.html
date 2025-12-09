@@ -1,0 +1,103 @@
+<div class="bulk">
+  <h2>Bulk Operations</h2>
+  
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <div class="success" *ngIf="success">{{ success }}</div>
+  
+  <!-- Bulk Create Form -->
+  <div class="card">
+    <h3>Create Multiple Tasks</h3>
+    <form (ngSubmit)="createBulkTasks()">
+      <div *ngFor="let task of bulkTasks; let i = index" class="bulk-task-item">
+        <h4>Task {{ i + 1 }}</h4>
+        <div class="form-group">
+          <label [for]="'title-' + i">Title *</label>
+          <input 
+            type="text" 
+            [id]="'title-' + i" 
+            [(ngModel)]="task.title" 
+            [name]="'title-' + i"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label [for]="'description-' + i">Description</label>
+          <textarea 
+            [id]="'description-' + i" 
+            [(ngModel)]="task.description" 
+            [name]="'description-' + i"
+          ></textarea>
+        </div>
+        <button 
+          type="button" 
+          class="btn btn-danger" 
+          (click)="removeTask(i)"
+          *ngIf="bulkTasks.length > 1"
+        >
+          Remove
+        </button>
+      </div>
+      
+      <div class="actions">
+        <button type="button" class="btn" (click)="addTask()">Add Another Task</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create All Tasks' }}
+        </button>
+        <button type="button" class="btn" (click)="clearResults()" *ngIf="taskResults.length > 0">
+          Clear Results
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Bulk Results -->
+  <div class="card" *ngIf="taskResults.length > 0">
+    <h3>Bulk Operation Results</h3>
+    <p>Created {{ createdTaskIds.length }} tasks. Results:</p>
+    
+    <div *ngFor="let result of taskResults" class="result-item">
+      <div class="result-header">
+        <span class="status-indicator" [ngClass]="{'status-ok': result.isSuccess, 'status-error': !result.isSuccess}"></span>
+        <strong>{{ result.title }}</strong>
+      </div>
+      <div class="result-details">
+        <small>Task ID: {{ result.taskId }}</small>
+        <small>Status: {{ result.isSuccess ? 'Success' : 'Failed' }}</small>
+        <small *ngIf="result.errorMessage" class="error-text">Error: {{ result.errorMessage }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Task by ID -->
+  <div class="card">
+    <h3>Search Task by ID</h3>
+    <form (ngSubmit)="searchTask()">
+      <div class="form-group">
+        <label for="search-id">Task ID</label>
+        <input 
+          type="text" 
+          id="search-id" 
+          [(ngModel)]="searchTaskId" 
+          name="searchId"
+          placeholder="Enter task ID"
+        >
+      </div>
+      <button type="submit" class="btn" [disabled]="loading">
+        {{ loading ? 'Searching...' : 'Search' }}
+      </button>
+    </form>
+
+    <div *ngIf="searchResult" class="result-item">
+      <div class="result-header">
+        <span class="status-indicator" [ngClass]="{'status-ok': searchResult.isSuccess, 'status-error': !searchResult.isSuccess}"></span>
+        <strong>{{ searchResult.title }}</strong>
+      </div>
+      <div class="result-details">
+        <small>Task ID: {{ searchResult.taskId }}</small>
+        <small>Status: {{ searchResult.isSuccess ? 'Success' : 'Failed' }}</small>
+        <small *ngIf="searchResult.errorMessage" class="error-text">Error: {{ searchResult.errorMessage }}</small>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,71 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  api:
+    image: q10taskmanagerapi
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:80"
+      CONNECTION_STRING: "Host=postgres;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      - 5100:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - taskmanager-network
+  ui:
+    image: q10taskmanagerui
+    build:
+      context: .
+      dockerfile: ui.dockerfile
+    ports:
+      - 4200:80
+    depends_on:
+      - api
+    networks:
+      - taskmanager-network
+  postgres:
+    image: postgres:latest
+    container_name: taskmanager-postgres
+    environment:
+      POSTGRES_DB: TaskManagerDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password123
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    networks:
+      - taskmanager-network
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: taskmanager-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taskmanager-network
+volumes:
+  postgres_data:
+networks:
+  taskmanager-network:
+    driver: bridge      

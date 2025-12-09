@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: q10-deployment
+  namespace: q10-task-manager
+  labels:
+    app: q10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: q10
+  template:
+    metadata:
+      labels:
+        app: q10
+    spec:
+      containers:
+        - name: q10
+          image: andreslon/q10-api:1.0.1
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: q10-config
+          resources:
+            requests: 
+              memory: "128Mi"
+              cpu: "250m" 
+            limits:
+              memory: "256Mi"
+              cpu: "500m" 
