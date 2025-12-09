@@ -6,6 +6,7 @@ on:
       - 'api/**'
       - 'kubernetes/**'
       - 'api.Dockerfile'
+      - '.github/workflows/ci-cd-api.yml'
   workflow_dispatch:
     inputs:
       reason:
