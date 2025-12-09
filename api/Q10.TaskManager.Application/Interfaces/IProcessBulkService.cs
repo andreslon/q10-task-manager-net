@@ -8,3 +8,4 @@ namespace Q10.TaskManager.Infrastructure.Interfaces
         Task StartConsumingAsync();
     }
 }
+

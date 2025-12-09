@@ -35,3 +35,4 @@ namespace Q10.TaskManager.Domain.Entities
         }
     }
 }
+

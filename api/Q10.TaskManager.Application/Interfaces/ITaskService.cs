@@ -12,3 +12,4 @@ namespace Q10.TaskManager.Infrastructure.Interfaces
         Task<bool> DeleteTask(string id);
     }
 }
+
