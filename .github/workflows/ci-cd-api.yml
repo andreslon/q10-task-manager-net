@@ -17,7 +17,9 @@ on:
 env:
   Environment: ${{ github.ref_name }}
   TAG: ${{ github.sha }}
-  SLN_PATH: 'api/Q10.TaskManager.Api.sln'   
+  SLN_PATH: 'api/Q10.TaskManager.Api.sln'
+  API_IMAGE_NAME: 'q10-api'
+  ECR_REPOSITORY_URL: '394901908314.dkr.ecr.us-east-1.amazonaws.com'
 
 jobs:
   CI-Native:
@@ -46,10 +48,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Build the Docker image
-        run: docker build -t q10-api:${{ env.TAG }} -f "api.Dockerfile" "." 
-
-      # - name: Push the Docker image
-      #   run: docker push q10-api:${{ env.TAG }}
+        run: docker build -t ${{ env.ECR_REPOSITORY_URL }}/${{ env.API_IMAGE_NAME }}:${{ env.TAG }} -f "api.Dockerfile" "." 
+        
+      - name: Push the Docker image
+        run: docker push ${{ env.ECR_REPOSITORY_URL }}/${{ env.API_IMAGE_NAME }}:${{ env.TAG }}
 
   # CD-Docker:
   #   runs-on: ubuntu-latest
