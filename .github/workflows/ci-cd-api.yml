@@ -15,7 +15,6 @@ on:
         default: 'Manual deployment'
 
 env:
-  Environment: ${{ github.ref_name }}
   TAG: ${{ github.sha }}
   SLN_PATH: 'api/Q10.TaskManager.Api.sln'
   APP_NAME: 'q10-api'
@@ -59,6 +58,8 @@ jobs:
 
   CD-Docker:
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref_name }}
     needs: CI-Docker
     steps:
       - name: Checkout code
