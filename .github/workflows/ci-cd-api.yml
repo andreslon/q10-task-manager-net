@@ -89,6 +89,13 @@ jobs:
       - name: Deploy Namespace          
         run: kubectl apply -f kubernetes/namespace.yml
 
+      - name: Deploy Config Map          
+        run: kubectl apply -f kubernetes/config-map.yml
 
+      - name: Deploy Deployment          
+        run: kubectl apply -f kubernetes/deployment.yml
+
+      - name: Deploy Service          
+        run: kubectl apply -f kubernetes/service.yml
 
 
