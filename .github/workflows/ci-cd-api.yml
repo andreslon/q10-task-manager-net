@@ -20,12 +20,11 @@ env:
   SLN_PATH: 'api/Q10.TaskManager.Api.sln'   
 
 jobs:
-  CI:
+  CI-Native:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Restore .Net packages
         run: dotnet restore ${{ env.SLN_PATH }}
       - name: Build the project
@@ -33,7 +32,10 @@ jobs:
       - name: Test the project
         run: dotnet test ${{ env.SLN_PATH }}
 
+  CI-Docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2    
       - name: Build the Docker image
-        run: docker build -t q10-api:${{ env.TAG }} -f "api.Dockerfile" "."
-
-      
+        run: docker build -t q10-api:${{ env.TAG }} -f "api.Dockerfile" "."      
