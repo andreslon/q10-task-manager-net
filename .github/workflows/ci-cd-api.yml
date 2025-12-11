@@ -18,7 +18,7 @@ env:
   Environment: ${{ github.ref_name }}
   TAG: ${{ github.sha }}
   SLN_PATH: 'api/Q10.TaskManager.Api.sln'
-  API_IMAGE_NAME: 'q10-api'
+  APP_NAME: 'q10-api'
   ECR_REPOSITORY_URL: '394901908314.dkr.ecr.us-east-1.amazonaws.com'
 
 jobs:
@@ -49,14 +49,31 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Build the Docker image
-        run: docker build -t ${{ env.ECR_REPOSITORY_URL }}/${{ env.API_IMAGE_NAME }}:${{ env.TAG }} -f "api.Dockerfile" "." 
+        run: docker build -t ${{ env.ECR_REPOSITORY_URL }}/${{ env.APP_NAME }}:${{ env.TAG }} -f "api.Dockerfile" "." 
         
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Push the Docker image
-        run: docker push ${{ env.ECR_REPOSITORY_URL }}/${{ env.API_IMAGE_NAME }}:${{ env.TAG }}
+        run: docker push ${{ env.ECR_REPOSITORY_URL }}/${{ env.APP_NAME }}:${{ env.TAG }}
 
-  # CD-Docker:
-  #   runs-on: ubuntu-latest
+  CD-Docker:
+    runs-on: ubuntu-latest
+    needs: CI-Docker
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 
+            
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: '["kubernetes/*.yml"]'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}    
           
+
