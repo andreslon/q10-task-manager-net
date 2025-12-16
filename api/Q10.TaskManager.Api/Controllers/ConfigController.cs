@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Q10.TaskManager.Infrastructure.Interfaces;
-using Q10.TaskManager.Infrastructure.Repositories;
-using System.Linq;
 
 namespace Q10.TaskManager.Api.Controllers
 {
@@ -10,16 +8,22 @@ namespace Q10.TaskManager.Api.Controllers
     [ApiController]
     public class ConfigController : ControllerBase
     {
-        public IConfig Config { get; set; }
-        public ConfigController(IEnumerable<IConfig> configs)
+        private readonly IConfig _config;
+        
+        public ConfigController(IConfig config)
         {
-            Config = configs.OfType<EnvironmentRepository>().FirstOrDefault();
+            _config = config;
         }
+        
         [HttpGet]
         public IActionResult Get()
         {
+            if (_config == null)
+            {
+                return BadRequest("Configuration service is not available");
+            }
             
-            return Ok(Config.GetValue("ASPNETCORE_ENVIRONMENT"));
+            return Ok(_config.GetValue("ASPNETCORE_ENVIRONMENT"));
         }
     }
 }

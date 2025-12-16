@@ -12,7 +12,10 @@ namespace Q10.TaskManager.Api.Configurations
         {
             // Add services to the container.
             #region Repositories
-            services.AddScoped<IConfig, SettingsRepository>();
+            // Register both config repositories - EnvironmentRepository for env vars, SettingsRepository for appsettings
+            services.AddScoped<EnvironmentRepository>();
+            services.AddScoped<SettingsRepository>();
+            services.AddScoped<IConfig, EnvironmentRepository>(); // Use EnvironmentRepository for Kubernetes env vars
             services.AddScoped<ICacheRepository, CacheRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
