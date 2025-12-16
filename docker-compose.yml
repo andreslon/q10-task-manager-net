@@ -7,6 +7,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: "http://+:80"
       CONNECTION_STRING: "Host=postgres;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+      RABBITMQ_HOSTNAME: "rabbitmq"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USERNAME: "admin"
+      RABBITMQ_PASSWORD: "admin123"
     build:
       context: .
       dockerfile: api.Dockerfile

@@ -19,6 +19,12 @@ env:
   SLN_PATH: 'api/Q10.TaskManager.Api.sln'
   APP_NAME: 'q10-api'
   ECR_REPOSITORY_URL: '394901908314.dkr.ecr.us-east-1.amazonaws.com'
+  ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
+  CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+  RABBITMQ_HOSTNAME: ${{ secrets.RABBITMQ_HOSTNAME }}
+  RABBITMQ_PORT: ${{ secrets.RABBITMQ_PORT }}
+  RABBITMQ_USERNAME: ${{ secrets.RABBITMQ_USERNAME }}
+  RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
 jobs:
   CI-Native:

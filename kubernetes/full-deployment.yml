@@ -14,6 +14,10 @@ metadata:
 data:
   ASPNETCORE_ENVIRONMENT: "Production"
   CONNECTION_STRING: "Host=10.110.96.145;Port=15433;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+  RABBITMQ_HOSTNAME: "10.104.182.199"
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USERNAME: "admin"
+  RABBITMQ_PASSWORD: "admin123"
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -65,7 +65,7 @@ namespace Q10.TaskManager.Api.Configurations
 
         public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>

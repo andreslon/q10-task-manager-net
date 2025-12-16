@@ -13,12 +13,17 @@ namespace Q10.TaskManager.Infrastructure.Repositories
 
         public RabbitMQRepository()
         {
+            var hostName = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME") ?? "localhost";
+            var port = int.TryParse(Environment.GetEnvironmentVariable("RABBITMQ_PORT"), out var parsedPort) ? parsedPort : 5672;
+            var userName = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME") ?? "guest";
+            var password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "guest";
+
             var factory = new ConnectionFactory
             {
-                HostName = "10.104.182.199",
-                Port = 5672,
-                UserName = "admin",
-                Password = "admin123"
+                HostName = hostName,
+                Port = port,
+                UserName = userName,
+                Password = password
             };
 
             _connection = factory.CreateConnection();

@@ -9,7 +9,11 @@
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123",
+        "RABBITMQ_HOSTNAME": "10.104.182.199",
+        "RABBITMQ_PORT": "5672",
+        "RABBITMQ_USERNAME": "admin",
+        "RABBITMQ_PASSWORD": "admin123"
       }
     },
     "Production": {
@@ -20,7 +24,11 @@
       "applicationUrl": "https://localhost:7107;http://localhost:5253",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
-        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123",
+        "RABBITMQ_HOSTNAME": "10.104.182.199",
+        "RABBITMQ_PORT": "5672",
+        "RABBITMQ_USERNAME": "admin",
+        "RABBITMQ_PASSWORD": "admin123"
       }
     }
   }
