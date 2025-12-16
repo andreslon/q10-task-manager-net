@@ -2,7 +2,6 @@
 using Q10.TaskManager.Domain.Entities;
 using Q10.TaskManager.Infrastructure.DTOs;
 using Q10.TaskManager.Infrastructure.Interfaces;
-using Q10.UserManager.Infrastructure.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,7 +11,7 @@ namespace Q10.TaskManager.Application.Services
     public class AuthService : IAuthService
     {
         public IUserRepository UserRepository { get; set; }
-        public AuthService(UserRepository userRepository)
+        public AuthService(IUserRepository userRepository)
         {
             UserRepository = userRepository;
         }
