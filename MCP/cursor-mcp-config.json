@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "taskmanager": {
+      "command": "node",
+      "args": ["C:\\Dev\\Cedesistemas\\q10-task-manager-net\\MCP\\dist\\index.js"],
+      "env": {
+        "TASKMANAGER_API_URL": "http://a272ddae62e1b4505851f98b3a62d36f-1573655459.us-east-1.elb.amazonaws.com"
+      }
+    }
+  }
+}
+
