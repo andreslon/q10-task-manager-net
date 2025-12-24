@@ -1,8 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: q10-config
-  namespace: q10-task-manager
+  name: "#{APP_NAME}#"
+  namespace: "#{APP_NAME}#"
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"
-  CONNECTION_STRING: "Host=10.105.104.205;Port=5432;Database=TaskManagerDB;User Id=postgres;Password=postgres_password123"
+  ASPNETCORE_ENVIRONMENT: "#{ASPNETCORE_ENVIRONMENT}#"
+  CONNECTION_STRING: "#{CONNECTION_STRING}#"
+  RABBITMQ_HOSTNAME: "#{RABBITMQ_HOSTNAME}#"
+  RABBITMQ_PORT: "#{RABBITMQ_PORT}#"
+  RABBITMQ_USERNAME: "#{RABBITMQ_USERNAME}#"
+  RABBITMQ_PASSWORD: "#{RABBITMQ_PASSWORD}#"

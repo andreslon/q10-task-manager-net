@@ -15,21 +15,93 @@ on:
         default: 'Manual deployment'
 
 env:
-  Environment: ${{ github.ref_name }}
-  TAG: ${{ github.ref_name }}
-  SLN_PATH: 'api/Q10.TaskManager.Api.sln'   
+  TAG: ${{ github.sha }}
+  SLN_PATH: 'api/Q10.TaskManager.Api.sln'
+  APP_NAME: 'q10-api'
+  ECR_REPOSITORY_URL: '394901908314.dkr.ecr.us-east-1.amazonaws.com'
+  ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
+  CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+  RABBITMQ_HOSTNAME: ${{ secrets.RABBITMQ_HOSTNAME }}
+  RABBITMQ_PORT: ${{ secrets.RABBITMQ_PORT }}
+  RABBITMQ_USERNAME: ${{ secrets.RABBITMQ_USERNAME }}
+  RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
 jobs:
-  CI:
+  CI-Native:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
       - name: Restore .Net packages
         run: dotnet restore ${{ env.SLN_PATH }}
       - name: Build the project
         run: dotnet build ${{ env.SLN_PATH }} -c Release
       - name: Test the project
         run: dotnet test ${{ env.SLN_PATH }}
-      
+
+  CI-Docker:
+    runs-on: ubuntu-latest
+    needs: CI-Native
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2    
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build the Docker image
+        run: docker build -t ${{ env.ECR_REPOSITORY_URL }}/${{ env.APP_NAME }}:${{ env.TAG }} -f "api.Dockerfile" "." 
+        
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Push the Docker image
+        run: docker push ${{ env.ECR_REPOSITORY_URL }}/${{ env.APP_NAME }}:${{ env.TAG }}
+
+  CD-Docker:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.ref_name }}
+    needs: CI-Docker
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 
+
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: '["kubernetes/*.yml"]'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}   
+
+      - name: Set up eks credentials
+        run: aws eks update-kubeconfig --name ${{ secrets.AWS_EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+      - name: Configure kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+          
+      - name: Deploy Namespace          
+        run: kubectl apply -f kubernetes/namespace.yml
+
+      - name: Deploy Config Map          
+        run: kubectl apply -f kubernetes/config-map.yml
+
+      - name: Deploy Deployment          
+        run: kubectl apply -f kubernetes/deployment.yml
+
+      - name: Deploy Service          
+        run: kubectl apply -f kubernetes/service.yml
+
+
